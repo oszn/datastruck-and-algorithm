@@ -1,0 +1,21 @@
+feign:
+  httpclient:
+    enabled: true # 开启feign对HttpClient的支持
+    max-connections: 200  # 最大的连接数
+    max-connections-per-route: 50  # 每个路径的最大连接数
+spring:
+  application:
+    name: first-service-invoker
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+#取消Ribbon使用Eureka
+#ribbon:
+#   eureka:
+#      enabled: true
+#配置Ribbon能访问 的微服务节点，多个节点用逗号隔开
+#spring-cloud-consumer:
+#    ribbon:
+#       listOfServers: localhost:8001,localhost:8002

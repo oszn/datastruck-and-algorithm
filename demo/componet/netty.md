@@ -48,7 +48,7 @@ public enum ToType {
 
 
 
-## 学习过程种总结的文章
+## 学习过程产出的笔记
 
 [Java的NIO](https://blog.csdn.net/weixin_42771401/article/details/128733754?spm=1001.2014.3001.5501)
 
