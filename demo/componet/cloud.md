@@ -275,7 +275,28 @@ Hystrix 是什么？
     }
 ```
 
+### 信号量相关
 
+```java
+private static final HystrixCommand.Setter cacheSetter = HystrixCommand.Setter.
+            withGroupKey(HystrixCommandGroupKey.Factory.asKey("ExampleGroup")).
+            andCommandKey(HystrixCommandKey.Factory.asKey("Group")).
+            andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(3000).withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE));
+
+```
+
+信号量进行管理，对比于线程资源，信号量不需要额外的线程资源，减少线程切换的时候cpu的消耗，更加的轻量级，而sentencel就是信号量的。
+
+>
+>
+>线程池隔离技术，并不是说去控制类似 tomcat 这种 web 容器的线程。更加严格的意义上来说，Hystrix 的线程池隔离技术，控制的是 tomcat 线程的执行。Hystrix 线程池满后，会确保说，tomcat 的线程不会因为依赖服务的接口调用延迟或故障而被 hang 住，tomcat 其它的线程不会卡死，可以快速返回，然后支撑其它的事情。
+>
+>线程池隔离技术，是用 Hystrix 自己的线程去执行调用；而信号量隔离技术，是直接让 tomcat 线程去调用依赖服务。信号量隔离，只是一道关卡，信号量有多少，就允许多少个 tomcat 线程通过它，然后去执行。
+>
+>**适用场景**：
+>
+>- **线程池技术**，适合绝大多数场景，比如说我们对依赖服务的网络请求的调用和访问、需要对调用的 timeout 进行控制（捕捉 timeout 超时异常）。
+>- **信号量技术**，适合说你的访问不是对外部依赖的访问，而是对内部的一些比较复杂的业务逻辑的访问，并且系统内部的代码，其实不涉及任何的网络请求，那么只要做信号量的普通限流就可以了，因为不需要去捕获 timeout 类似的问题。
 
 ### springcloud
 
